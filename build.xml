@@ -3,6 +3,13 @@
     <property name="target.dir" value="target"/>
     <property name="dist.dir" value="dist"/>
     <property name="test.reports.dir" value="reports"/>
+    
+    <propertyset id="proxy.settings">
+        <propertyref prefix="http."/>
+        <propertyref prefix="https."/>
+        <propertyref prefix="socks."/>
+    </propertyset>
+
     <ivy:cachepath pathid="lib.classpath"/>
     <path id="compile.classpath">
         <path refid="lib.classpath"/>
@@ -52,6 +59,9 @@
                     <include name="**/*Test*.java"/>
                 </fileset>
             </batchtest>
+            
+            <!--copy all proxy settings from the running JVM-->
+            <syspropertyset refid="proxy.settings"/>
         </junit>
         <fail message="Test failure detected, check test results." if="test.failed"/>
     </target>
